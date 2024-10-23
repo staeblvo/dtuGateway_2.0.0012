@@ -6,6 +6,7 @@
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 
+#define IGNORE_NO_TIME_ERROR    //VS
 #define CONFIG_FILE_PATH "/userconfig.json"
 
 struct UserConfig

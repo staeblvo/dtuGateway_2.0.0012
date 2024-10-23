@@ -334,13 +334,18 @@ void DTUInterface::handleError(uint8_t errorState)
 {
     if (client->connected())
     {
-        dtuConnection.dtuErrorState = errorState;
-        dtuConnection.dtuConnectState = DTU_STATE_DTU_REBOOT;
-        Serial.print(F("DTUinterface:\t DTU Connection --- ERROR - try with reboot of DTU - error state: "));
-        Serial.println(errorState);
-        writeCommandRestartDevice();
-        dtuGlobalData.dtuResetRequested = dtuGlobalData.dtuResetRequested + 1;
-        // disconnect(dtuConnection.dtuConnectState);
+#ifdef IGNORE_NO_TIME_ERROR
+        if (DTU_ERROR_NO_TIME != errorState)
+#endif        
+        {
+            dtuConnection.dtuErrorState = errorState;
+            dtuConnection.dtuConnectState = DTU_STATE_DTU_REBOOT;
+            Serial.print(F("DTUinterface:\t DTU Connection --- ERROR - try with reboot of DTU - error state: "));
+            Serial.println(errorState);
+            writeCommandRestartDevice();
+            dtuGlobalData.dtuResetRequested = dtuGlobalData.dtuResetRequested + 1;
+            // disconnect(dtuConnection.dtuConnectState);
+        }
     }
 }
 
