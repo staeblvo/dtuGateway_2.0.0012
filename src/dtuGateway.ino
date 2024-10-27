@@ -1182,9 +1182,7 @@ void loop()
       }
 
       RemoteInverterData remoteData = mqttHandler.getRemoteInverterData();
-      if ((remoteData.updateReceived == true) && 
-          ((0 != remoteData.grid.totalEnergy) || (0 != remoteData.pv0.current) || (0 != remoteData.pv0.current))
-         )
+      if (remoteData.updateReceived == true)
       {
         dtuGlobalData.grid.power = remoteData.grid.power;
         dtuGlobalData.grid.current = remoteData.grid.current;
