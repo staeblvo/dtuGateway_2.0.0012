@@ -634,7 +634,11 @@ void DTUInterface::readRespRealDataNew(pb_istream_t istream)
 
     pb_decode(&istream, &RealDataNewReqDTO_msg, &realdatanewreqdto);
     Serial.println("DTUinterface:\t RealDataNew  - got remote (" + String(realdatanewreqdto.timestamp) + "):\t" + getTimeStringByTimestamp(realdatanewreqdto.timestamp));
-    if (realdatanewreqdto.timestamp != 0)
+    if ((realdatanewreqdto.timestamp != 0) && 
+        ((realdatanewreqdto.pv_data[0].energy_total != 0) || 
+        (realdatanewreqdto.pv_data[1].energy_total != 0) ||
+        (realdatanewreqdto.sgs_data[0].temperature != 0))
+       )
     {
         dtuGlobalData.respTimestamp = uint32_t(realdatanewreqdto.timestamp);
         // dtuGlobalData.updateReceived = true; // not needed here - everytime both request (realData and getConfig) will be set
