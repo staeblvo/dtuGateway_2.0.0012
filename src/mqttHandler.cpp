@@ -46,6 +46,11 @@ void MQTTHandler::subscribedMessageArrived(char *topic, byte *payload, unsigned 
             instance->lastPowerLimitSet.setValue = setLimit;
             instance->lastPowerLimitSet.update = true;
         }
+        else if (String(topic) == instance->mqttMainTopicPath + "/inverter/Gateway_Reset")
+        {
+            Serial.println("Reset..");
+            ESP.restart();
+        }
         else
         {
             // Serial.println("MQTT: received message for topic: " + String(topic) + " - value: " + incommingMessage);
@@ -263,6 +268,8 @@ boolean MQTTHandler::initiateDiscoveryMessages(bool autoDiscoveryRemove)
 
             publishDiscoveryMessage("inverter_PowerLimit_Set", "Inverter power limit Set", "%", autoDiscoveryRemove, "mdi:car-speed-limiter", "power_factor");
 
+            publishDiscoveryMessage("inverter_Gateway_Reset", "Reset gateway", NULL, autoDiscoveryRemove, NULL, NULL);
+
             publishDiscoveryMessage("time_stamp", "Time stamp", NULL, autoDiscoveryRemove, NULL, "timestamp");
             return true;
         }
@@ -340,6 +347,7 @@ void MQTTHandler::reconnect()
             else
             {
                 client.subscribe((mqttMainTopicPath + "/inverter/PowerLimit_Set").c_str());
+                client.subscribe((mqttMainTopicPath + "/inverter/Gateway_Reset").c_str());
                 Serial.println("MQTT:\t\t subscribe to: " + (mqttMainTopicPath + "/inverter/PowerLimit_Set"));
 
                 // Publish MQTT auto-discovery messages at every new connection, if enabled

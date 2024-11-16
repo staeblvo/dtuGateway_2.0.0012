@@ -364,6 +364,7 @@ So I decided to put this abstraction in an **ESP8266** to have a stable abstract
   dtuGateway_12345678/inverter/Temp
   dtuGateway_12345678/inverter/PowerLimit
   dtuGateway_12345678/inverter/PowerLimit_Set // <-- this topic will be subscribed to get the power limit to set from your broker
+  dtuGateway_12345678/inverter/Gateway_Reset  // <-- this topic will be subscribed to reset gateway from your broker
   dtuGateway_12345678/inverter/WifiRSSI
   ```
   </details>
